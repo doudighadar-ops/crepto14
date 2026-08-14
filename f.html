@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Larped Prop Bank</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0a0b0e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding: 16px;
+        }
+        .phone-frame {
+            max-width: 380px;
+            width: 100%;
+            background: #121317;
+            border-radius: 44px;
+            padding: 20px 16px 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            border: 1px solid #2a2c33;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            color: #888b95;
+            font-size: 12px;
+            font-weight: 500;
+            padding: 0 4px 16px 4px;
+        }
+        .balance-card {
+            background: #1c1e26;
+            border-radius: 24px;
+            padding: 24px 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2c2f3a;
+        }
+        .balance-label {
+            color: #7a7d8a;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        .balance-amount {
+            color: #ffffff;
+            font-size: 36px;
+            font-weight: 600;
+            margin-top: 4px;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+        .balance-amount:hover {
+            opacity: 0.7;
+        }
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            border-top: 1px solid #2c2f3a;
+            padding-top: 16px;
+        }
+        .card-number {
+            color: #b0b3be;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        .card-chip {
+            background: #f5c542;
+            width: 32px;
+            height: 24px;
+            border-radius: 6px;
+        }
+        .section-title {
+            color: #f0f1f5;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+        }
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-tile {
+            background: #1c1e26;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #2a2c33;
+        }
+        .stat-tile .label {
+            color: #7a7d8a;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .stat-tile .value {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+        .stat-tile .value:hover {
+            opacity: 0.7;
+        }
+        .stat-tile .sub {
+            color: #5a8a5a;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .transaction-list {
+            background: #1c1e26;
+            border-radius: 20px;
+            padding: 8px 0;
+            border: 1px solid #2a2c33;
+            margin: 16px 0;
+        }
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #262830;
+        }
+        .tx-item:last-child {
+            border-bottom: none;
+        }
+        .tx-name {
+            color: #e8e9ed;
+            font-size: 14px;
+        }
+        .tx-date {
+            color: #5f6370;
+            font-size: 11px;
+        }
+        .tx-amount {
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .tx-amount.positive {
+            color: #4caf50;
+        }
+        .tx-amount.negative {
+            color: #ef5350;
+        }
+        .edit-hint {
+            color: #5f6370;
+            font-size: 11px;
+            text-align: center;
+            margin-top: 16px;
+            border-top: 1px solid #1e2028;
+            padding-top: 16px;
+            letter-spacing: 0.3px;
+        }
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #1c1e26;
+            border-radius: 30px;
+            padding: 6px;
+            margin-top: 20px;
+            border: 1px solid #2a2c33;
+        }
+        .tab-item {
+            color: #7a7d8a;
+            font-size: 12px;
+            padding: 8px 16px;
+            border-radius: 24px;
+            transition: 0.2s;
+            cursor: default;
+        }
+        .tab-item.active {
+            background: #2c2f3a;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Status -->
+        <div class="status-bar">
+            <span>9:41</span>
+            <span>?? ??</span>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-amount" id="balanceDisplay">$ 12,847.50</div>
+            <div class="card-row">
+                <span class="card-number">???? 4242</span>
+                <span class="card-chip"></span>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid-2col">
+            <div class="stat-tile">
+                <div class="label">Crypto</div>
+                <div class="value" id="cryptoValue">$ 3,210.00</div>
+                <div class="sub">+2.4%</div>
+            </div>
+            <div class="stat-tile">
+                <div class="label">Stocks</div>
+                <div class="value" id="stocksValue">$ 8,100.00</div>
+                <div class="sub">+0.8%</div>
+            </div>
+            <div class="stat-tile">
+                <div class="label">This Month</div>
+                <div class="value" id="monthSpend">$ 1,240.00</div>
+                <div class="sub">spent</div>
+            </div>
+            <div class="stat-tile">
+                <div class="label">All Time</div>
+                <div class="value" id="allTimeSpend">$ 4,890.00</div>
+                <div class="sub">spent</div>
+            </div>
+        </div>
+
+        <!-- Transactions -->
+        <div class="section-title">Recent Activity</div>
+        <div class="transaction-list">
+            <div class="tx-item">
+                <div><span class="tx-name">Crypto Deposit</span><br><span class="tx-date">Today, 14:23</span></div>
+                <div class="tx-amount positive">+$ 450.00</div>
+            </div>
+            <div class="tx-item">
+                <div><span class="tx-name">Stock Sale</span><br><span class="tx-date">Today, 11:07</span></div>
+                <div class="tx-amount positive">+$ 1,200.00</div>
+            </div>
+            <div class="tx-item">
+                <div><span class="tx-name">Wire Transfer</span><br><span class="tx-date">Yesterday, 18:30</span></div>
+                <div class="tx-amount negative">-$ 320.00</div>
+            </div>
+            <div class="tx-item">
+                <div><span class="tx-name">Dividend</span><br><span class="tx-date">Jul 12, 2026</span></div>
+                <div class="tx-amount positive">+$ 87.50</div>
+            </div>
+        </div>
+
+        <!-- Edit Hint & Tab Bar -->
+        <div class="edit-hint">?? Triple-tap any number to edit (prop only)</div>
+        <div class="tab-bar">
+            <span class="tab-item active">Home</span>
+            <span class="tab-item">Portfolio</span>
+            <span class="tab-item">Cards</span>
+            <span class="tab-item">Settings</span>
+        </div>
+    </div>
+
+    <script>
+        // Universal number editor: triple-tap any .value or .balance-amount
+        document.querySelectorAll('.balance-amount, .stat-tile .value, #monthSpend, #allTimeSpend')
+            .forEach(el => {
+                let tapCount = 0;
+                let timer = null;
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    tapCount++;
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(() => { tapCount = 0; }, 500);
+                    if (tapCount === 3) {
+                        tapCount = 0;
+                        const currentText = this.innerText;
+                        const numericPart = currentText.replace(/[^0-9.]/g, '');
+                        const prefix = currentText.match(/^[^0-9]*/)[0] || '';
+                        const newVal = prompt('Set new value (numbers only):', numericPart);
+                        if (newVal !== null && !isNaN(parseFloat(newVal)) && parseFloat(newVal) >= 0) {
+                            this.innerText = prefix + ' ' + parseFloat(newVal).toFixed(2);
+                        }
+                    }
+                });
+            });
+
+        // Also allow editing balance via explicit function if needed
+        console.log('Larped prop bank loaded. Triple-tap any number to change it.');
+    </script>
+</body>
+</html>
